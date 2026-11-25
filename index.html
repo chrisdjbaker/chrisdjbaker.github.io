@@ -7,84 +7,218 @@
 <meta name="description" content="Simple, pay-once apps by Christopher Baker. No ads, no subscriptions, no tracking.">
 <link rel="icon" href="icons/farkle.png">
 <style>
-  :root { --bg:#f6f7f9; --card:#ffffff; --text:#14181f; --muted:#5b6472; --line:#e3e6eb; --accent:#127a5c; }
+  :root { --bg:#f4f5f7; --card:#ffffff; --text:#12161d; --muted:#5d6675; --line:#e4e7ec; --accent:#127a5c;
+          --hero1:#0f5c47; --hero2:#127a5c; --shadow:0 1px 2px rgba(16,24,40,.05), 0 8px 24px rgba(16,24,40,.06); }
   @media (prefers-color-scheme: dark) {
-    :root { --bg:#10141b; --card:#181d26; --text:#eef1f5; --muted:#9aa3b2; --line:#262d39; --accent:#3fd3a3; }
+    :root { --bg:#0e1218; --card:#171c25; --text:#eef1f5; --muted:#9aa3b2; --line:#263040; --accent:#3fd3a3;
+            --hero1:#0b3a2e; --hero2:#0f5c47; --shadow:0 1px 2px rgba(0,0,0,.3), 0 8px 24px rgba(0,0,0,.25); }
   }
-  * { box-sizing: border-box; }
+  * { box-sizing:border-box; }
   body { margin:0; background:var(--bg); color:var(--text);
          font:16px/1.5 -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif; }
-  main { max-width: 880px; margin: 0 auto; padding: 48px 16px 64px; }
-  h1 { font-size: 2rem; margin: 0 0 6px; letter-spacing: -0.02em; }
-  .lede { color: var(--muted); margin: 0 0 32px; max-width: 60ch; }
-  .grid { display:grid; grid-template-columns: repeat(auto-fill, minmax(250px, 1fr)); gap: 14px; }
-  .card { display:flex; flex-direction:column; gap:12px; padding:14px; background:var(--card);
-          border:1px solid var(--line); border-radius:16px; }
-  .top { display:flex; gap:14px; align-items:center; }
-  .card img { width:60px; height:60px; border-radius:14px; flex:none; }
-  .top > div { flex:1; min-width:0; }
-  a.qr { flex:none; display:flex; flex-direction:column; align-items:center; gap:4px; text-decoration:none; }
-  a.qr img { width:84px; height:84px; border-radius:6px; background:#fff; padding:4px; border:1px solid var(--line); image-rendering:pixelated; }
-  a.qr span { font-size:.7rem; color:var(--muted); white-space:nowrap; }
-  .links { display:flex; flex-wrap:wrap; gap:8px; }
-  .btn { font-size:.85rem; font-weight:600; padding:6px 12px; border-radius:999px; text-decoration:none;
-         background:var(--accent); color:var(--card); }
-  .btn:hover { filter:brightness(1.1); }
-  .btn.plain { background:transparent; color:var(--accent); border:1px solid var(--line); }
-  .btn.soon { background:transparent; color:var(--muted); border:1px dashed var(--line); font-weight:500; }
-  .name { font-weight: 650; }
-  .sub { color: var(--muted); font-size: .9rem; }
-  h2 { font-size: 1.1rem; margin: 40px 0 8px; }
-  p.small { color: var(--muted); font-size: .92rem; max-width: 65ch; }
-  footer { margin-top: 48px; color: var(--muted); font-size: .85rem; }
+  .hero { background:linear-gradient(135deg, var(--hero1), var(--hero2)); color:#fff; }
+  .hero .wrap { padding:56px 16px 88px; }
+  .wrap { max-width:1140px; margin:0 auto; padding:0 16px; }
+  .hero h1 { font-size:clamp(2rem, 5vw, 2.8rem); line-height:1.1; margin:0 0 12px; letter-spacing:-.025em; }
+  .hero p { margin:0; max-width:56ch; font-size:1.08rem; color:rgba(255,255,255,.85); }
+  .pills { display:flex; flex-wrap:wrap; gap:8px; margin-top:22px; padding:0; list-style:none; }
+  .pills li { font-size:.85rem; font-weight:600; padding:6px 12px; border-radius:999px;
+              background:rgba(255,255,255,.14); border:1px solid rgba(255,255,255,.22); }
+  .grid { display:grid; grid-template-columns:repeat(auto-fill, minmax(min(100%, 320px), 1fr)); gap:20px;
+          margin-top:-56px; }
+  .card { position:relative; display:flex; flex-direction:column; background:var(--card); border:1px solid var(--line);
+          border-radius:20px; box-shadow:var(--shadow); overflow:hidden; transition:transform .15s, box-shadow .15s; }
+  .card::before { content:""; position:absolute; inset:0 0 auto 0; height:92px;
+                  background:linear-gradient(180deg, color-mix(in srgb, var(--tint) 16%, transparent), transparent); pointer-events:none; }
+  .card:hover { transform:translateY(-2px); box-shadow:0 2px 4px rgba(16,24,40,.06), 0 16px 32px rgba(16,24,40,.10); }
+  .head { position:relative; display:flex; gap:16px; align-items:center; padding:22px 22px 0; }
+  .icon { width:72px; height:72px; border-radius:17px; flex:none; box-shadow:0 4px 12px rgba(0,0,0,.16); }
+  .titles { min-width:0; }
+  .status { display:inline-block; font-size:.7rem; font-weight:700; letter-spacing:.06em; text-transform:uppercase;
+            color:var(--muted); margin-bottom:4px; }
+  .status.live { color:var(--tint); }
+  @media (prefers-color-scheme: dark) { .status.live { color:color-mix(in srgb, var(--tint) 55%, #fff); } }
+  h3 { margin:0; font-size:1.25rem; line-height:1.2; letter-spacing:-.01em; }
+  .tag { margin:2px 0 0; color:var(--muted); font-weight:500; font-size:.95rem; }
+  .sub { position:relative; margin:14px 22px 0; color:var(--text); }
+  .foot { display:flex; gap:16px; align-items:flex-end; justify-content:space-between; margin-top:auto;
+          padding:18px 22px 22px; }
+  .links { display:flex; flex-direction:column; align-items:flex-start; gap:8px; min-width:0; }
+  .btn { display:inline-flex; align-items:center; gap:7px; font-size:.88rem; font-weight:600; padding:8px 14px;
+         border-radius:12px; text-decoration:none; white-space:nowrap; }
+  .btn svg { width:17px; height:17px; fill:currentColor; margin-top:-2px; }
+  .btn.primary { background:var(--text); color:var(--card); }
+  .btn.primary:hover { opacity:.88; }
+  .btn.soon { color:var(--muted); border:1px dashed var(--line); font-weight:500; padding:7px 13px; }
+  .more { font-size:.88rem; font-weight:600; color:var(--accent); text-decoration:none; padding:4px 2px 0; }
+  .more:hover { text-decoration:underline; }
+  .qr { flex:none; display:flex; flex-direction:column; align-items:center; gap:6px; text-decoration:none; }
+  .qr img { display:block; width:96px; height:96px; padding:6px; background:#fff; border-radius:12px;
+            border:1px solid var(--line); image-rendering:pixelated; }
+  .qr span { font-size:.72rem; color:var(--muted); white-space:nowrap; }
+  .qr .ph { width:96px; height:96px; border-radius:12px; border:1px dashed var(--line); display:grid; place-items:center;
+            color:var(--muted); font-weight:700; letter-spacing:.08em; font-size:.8rem; }
+  /* On a phone the app is one tap away, so the QR code isn't needed. */
+  @media (max-width:560px) { .qr { display:none; } .links { flex-direction:row; flex-wrap:wrap; align-items:center; } }
+  .about { display:grid; grid-template-columns:repeat(auto-fit, minmax(min(100%, 240px), 1fr)); gap:20px; margin:56px 0 0; }
+  .about div { padding:20px 22px; border-radius:18px; background:var(--card); border:1px solid var(--line); }
+  .about h2 { font-size:1rem; margin:0 0 6px; }
+  .about p { margin:0; color:var(--muted); font-size:.93rem; }
+  footer { padding:40px 0 56px; color:var(--muted); font-size:.85rem; }
 </style>
 </head>
 <body>
-<main>
-  <h1>Christopher Baker</h1>
-  <p class="lede">Simple apps for game night, hobbies and everyday life. Every app is pay once: no ads, no subscriptions, no accounts and no tracking.</p>
-
+<header class="hero">
+  <div class="wrap">
+    <h1>Christopher Baker</h1>
+    <p>Simple apps for game night, hobbies and everyday life. Pay once and they're yours.</p>
+    <ul class="pills"><li>No ads</li><li>No subscriptions</li><li>No accounts</li><li>No tracking</li></ul>
+  </div>
+</header>
+<main class="wrap">
   <div class="grid">
-    <div class="card">
-      <div class="top"><img src="icons/farkle.png" alt=""><div><div class="name">Farkle: Play with Friends</div><div class="sub">The 10,000 dice game, out loud</div></div><a class="qr" href="https://apps.apple.com/us/app/farkle-play-with-friends/id6838118645" title="Scan to open in the App Store"><img src="qr/farkle.png" alt="QR code for the App Store page"><span>Scan for App Store</span></a></div>
-      <div class="links"><a class="btn" href="https://apps.apple.com/us/app/farkle-play-with-friends/id6838118645">App Store</a><span class="btn soon">Google Play: soon</span><a class="btn plain" href="https://chrisdjbaker.github.io/farkle-app/">Support</a></div>
-    </div>
-    <div class="card">
-      <div class="top"><img src="icons/bullseye.png" alt=""><div><div class="name">Bullseye: Darts Scoreboard</div><div class="sub">Darts scorekeeper and checkouts</div></div><a class="qr" href="https://apps.apple.com/us/app/bullseye-darts-scoreboard/id6838174956" title="Scan to open in the App Store"><img src="qr/bullseye.png" alt="QR code for the App Store page"><span>Scan for App Store</span></a></div>
-      <div class="links"><a class="btn" href="https://apps.apple.com/us/app/bullseye-darts-scoreboard/id6838174956">App Store</a><span class="btn soon">Google Play: soon</span><a class="btn plain" href="https://chrisdjbaker.github.io/darts-scorekeeper-app/">Support</a></div>
-    </div>
-    <div class="card">
-      <div class="top"><img src="icons/glowline.png" alt=""><div><div class="name">Glowline: Neon Arena</div><div class="sub">Draw loops. Claim the arena.</div></div></div>
-      <div class="links"><span class="btn soon">App Store: soon</span><span class="btn soon">Google Play: soon</span><a class="btn plain" href="https://chrisdjbaker.github.io/glowline-app/">Support</a></div>
-    </div>
-    <div class="card">
-      <div class="top"><img src="icons/decoded.png" alt=""><div><div class="name">Decoded: Daily Quote Puzzle</div><div class="sub">Crack the code, find the quote</div></div><a class="qr" href="https://apps.apple.com/us/app/decoded-daily-quote-puzzle/id6838428665" title="Scan to open in the App Store"><img src="qr/decoded.png" alt="QR code for the App Store page"><span>Scan for App Store</span></a></div>
-      <div class="links"><a class="btn" href="https://apps.apple.com/us/app/decoded-daily-quote-puzzle/id6838428665">App Store</a><span class="btn soon">Google Play: soon</span><a class="btn plain" href="https://chrisdjbaker.github.io/decoded-app/">Support</a></div>
-    </div>
-    <div class="card">
-      <div class="top"><img src="icons/worthit.png" alt=""><div><div class="name">Worth It: Places We Rate</div><div class="sub">Rate places, decide together</div></div><a class="qr" href="https://apps.apple.com/us/app/worth-it-places-we-rate/id6772850944" title="Scan to open in the App Store"><img src="qr/worthit.png" alt="QR code for the App Store page"><span>Scan for App Store</span></a></div>
-      <div class="links"><a class="btn" href="https://apps.apple.com/us/app/worth-it-places-we-rate/id6772850944">App Store</a><span class="btn soon">Google Play: soon</span><a class="btn plain" href="https://chrisdjbaker.github.io/worthit-app/">Support</a></div>
-    </div>
-    <div class="card">
-      <div class="top"><img src="icons/upside.png" alt=""><div><div class="name">Upside: Good News Nearby</div><div class="sub">Real local stories, only good</div></div><a class="qr" href="https://apps.apple.com/us/app/upside-good-news-nearby/id6838456839" title="Scan to open in the App Store"><img src="qr/upside.png" alt="QR code for the App Store page"><span>Scan for App Store</span></a></div>
-      <div class="links"><a class="btn" href="https://apps.apple.com/us/app/upside-good-news-nearby/id6838456839">App Store</a><span class="btn soon">Google Play: soon</span><a class="btn plain" href="https://chrisdjbaker.github.io/upside-app/">Support</a></div>
-    </div>
-    <div class="card">
-      <div class="top"><img src="icons/sushi-bowls.png" alt=""><div><div class="name">Sushi Bowls</div><div class="sub">Conveyor sushi bill counter</div></div><a class="qr" href="https://apps.apple.com/us/app/sushi-bowls/id6774802371" title="Scan to open in the App Store"><img src="qr/sushi-bowls.png" alt="QR code for the App Store page"><span>Scan for App Store</span></a></div>
-      <div class="links"><a class="btn" href="https://apps.apple.com/us/app/sushi-bowls/id6774802371">App Store</a><span class="btn soon">Google Play: soon</span><a class="btn plain" href="https://chrisdjbaker.github.io/sushi-bowls-app/">Support</a></div>
-    </div>
-    <div class="card">
-      <div class="top"><img src="icons/totetag.png" alt=""><div><div class="name">ToteTag</div><div class="sub">QR labels for storage totes</div></div><a class="qr" href="https://apps.apple.com/us/app/totetag/id6759206433" title="Scan to open in the App Store"><img src="qr/totetag.png" alt="QR code for the App Store page"><span>Scan for App Store</span></a></div>
-      <div class="links"><a class="btn" href="https://apps.apple.com/us/app/totetag/id6759206433">App Store</a><span class="btn soon">Google Play: soon</span><a class="btn plain" href="https://chrisdjbaker.github.io/totetag-app/">Support</a></div>
-    </div>
-    <div class="card">
-      <div class="top"><img src="icons/ammoledger.png" alt=""><div><div class="name">AmmoLedger</div><div class="sub">Ammo inventory and range log</div></div></div>
-      <div class="links"><span class="btn soon">App Store: soon</span><span class="btn soon">Google Play: soon</span><a class="btn plain" href="https://chrisdjbaker.github.io/ammoledger-app/">Support</a></div>
-    </div>
+    <article class="card" style="--tint:#1f8a4c">
+      <div class="head">
+        <img class="icon" src="icons/farkle.png" alt="" width="72" height="72">
+        <div class="titles"><span class="status live">On the App Store</span><h3>Farkle</h3><p class="tag">Play with Friends</p></div>
+      </div>
+      <p class="sub">The 10,000 dice game, out loud</p>
+      <div class="foot">
+        <div class="links">
+          <a class="btn primary" href="https://apps.apple.com/us/app/farkle-play-with-friends/id6838118645"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M16.4 12.6c0-2.5 2-3.6 2.1-3.7-1.2-1.7-3-1.9-3.6-2-1.5-.2-3 .9-3.8.9-.8 0-2-.9-3.3-.9-1.7 0-3.3 1-4.2 2.5-1.8 3.1-.5 7.7 1.3 10.2.9 1.2 1.9 2.6 3.2 2.6 1.3-.1 1.8-.8 3.3-.8 1.6 0 2 .8 3.4.8 1.4 0 2.3-1.3 3.1-2.5 1-1.4 1.4-2.8 1.4-2.9-.1 0-2.9-1.1-2.9-4.2zM13.9 5.2c.7-.9 1.2-2 1-3.2-1 0-2.3.7-3 1.6-.7.8-1.2 2-1.1 3.1 1.2.1 2.4-.6 3.1-1.5z"/></svg>App Store</a>
+          <span class="btn soon">Google Play · soon</span>
+          <a class="more" href="https://chrisdjbaker.github.io/farkle-app/">Help &amp; privacy <span aria-hidden="true">→</span></a>
+        </div>
+        <a class="qr" href="https://apps.apple.com/us/app/farkle-play-with-friends/id6838118645" title="Scan to open in the App Store"><img src="qr/farkle.png" alt="QR code for the Farkle App Store page" width="96" height="96"><span>Scan with your phone</span></a>
+      </div>
+    </article>
+    <article class="card" style="--tint:#c8372d">
+      <div class="head">
+        <img class="icon" src="icons/bullseye.png" alt="" width="72" height="72">
+        <div class="titles"><span class="status live">On the App Store</span><h3>Bullseye</h3><p class="tag">Darts Scoreboard</p></div>
+      </div>
+      <p class="sub">Darts scorekeeper and checkouts</p>
+      <div class="foot">
+        <div class="links">
+          <a class="btn primary" href="https://apps.apple.com/us/app/bullseye-darts-scoreboard/id6838174956"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M16.4 12.6c0-2.5 2-3.6 2.1-3.7-1.2-1.7-3-1.9-3.6-2-1.5-.2-3 .9-3.8.9-.8 0-2-.9-3.3-.9-1.7 0-3.3 1-4.2 2.5-1.8 3.1-.5 7.7 1.3 10.2.9 1.2 1.9 2.6 3.2 2.6 1.3-.1 1.8-.8 3.3-.8 1.6 0 2 .8 3.4.8 1.4 0 2.3-1.3 3.1-2.5 1-1.4 1.4-2.8 1.4-2.9-.1 0-2.9-1.1-2.9-4.2zM13.9 5.2c.7-.9 1.2-2 1-3.2-1 0-2.3.7-3 1.6-.7.8-1.2 2-1.1 3.1 1.2.1 2.4-.6 3.1-1.5z"/></svg>App Store</a>
+          <span class="btn soon">Google Play · soon</span>
+          <a class="more" href="https://chrisdjbaker.github.io/darts-scorekeeper-app/">Help &amp; privacy <span aria-hidden="true">→</span></a>
+        </div>
+        <a class="qr" href="https://apps.apple.com/us/app/bullseye-darts-scoreboard/id6838174956" title="Scan to open in the App Store"><img src="qr/bullseye.png" alt="QR code for the Bullseye App Store page" width="96" height="96"><span>Scan with your phone</span></a>
+      </div>
+    </article>
+    <article class="card" style="--tint:#2c4a78">
+      <div class="head">
+        <img class="icon" src="icons/decoded.png" alt="" width="72" height="72">
+        <div class="titles"><span class="status live">On the App Store</span><h3>Decoded</h3><p class="tag">Daily Quote Puzzle</p></div>
+      </div>
+      <p class="sub">Crack the code, find the quote</p>
+      <div class="foot">
+        <div class="links">
+          <a class="btn primary" href="https://apps.apple.com/us/app/decoded-daily-quote-puzzle/id6838428665"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M16.4 12.6c0-2.5 2-3.6 2.1-3.7-1.2-1.7-3-1.9-3.6-2-1.5-.2-3 .9-3.8.9-.8 0-2-.9-3.3-.9-1.7 0-3.3 1-4.2 2.5-1.8 3.1-.5 7.7 1.3 10.2.9 1.2 1.9 2.6 3.2 2.6 1.3-.1 1.8-.8 3.3-.8 1.6 0 2 .8 3.4.8 1.4 0 2.3-1.3 3.1-2.5 1-1.4 1.4-2.8 1.4-2.9-.1 0-2.9-1.1-2.9-4.2zM13.9 5.2c.7-.9 1.2-2 1-3.2-1 0-2.3.7-3 1.6-.7.8-1.2 2-1.1 3.1 1.2.1 2.4-.6 3.1-1.5z"/></svg>App Store</a>
+          <span class="btn soon">Google Play · soon</span>
+          <a class="more" href="https://chrisdjbaker.github.io/decoded-app/">Help &amp; privacy <span aria-hidden="true">→</span></a>
+        </div>
+        <a class="qr" href="https://apps.apple.com/us/app/decoded-daily-quote-puzzle/id6838428665" title="Scan to open in the App Store"><img src="qr/decoded.png" alt="QR code for the Decoded App Store page" width="96" height="96"><span>Scan with your phone</span></a>
+      </div>
+    </article>
+    <article class="card" style="--tint:#17a35a">
+      <div class="head">
+        <img class="icon" src="icons/worthit.png" alt="" width="72" height="72">
+        <div class="titles"><span class="status live">On the App Store</span><h3>Worth It</h3><p class="tag">Places We Rate</p></div>
+      </div>
+      <p class="sub">Rate places, decide together</p>
+      <div class="foot">
+        <div class="links">
+          <a class="btn primary" href="https://apps.apple.com/us/app/worth-it-places-we-rate/id6772850944"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M16.4 12.6c0-2.5 2-3.6 2.1-3.7-1.2-1.7-3-1.9-3.6-2-1.5-.2-3 .9-3.8.9-.8 0-2-.9-3.3-.9-1.7 0-3.3 1-4.2 2.5-1.8 3.1-.5 7.7 1.3 10.2.9 1.2 1.9 2.6 3.2 2.6 1.3-.1 1.8-.8 3.3-.8 1.6 0 2 .8 3.4.8 1.4 0 2.3-1.3 3.1-2.5 1-1.4 1.4-2.8 1.4-2.9-.1 0-2.9-1.1-2.9-4.2zM13.9 5.2c.7-.9 1.2-2 1-3.2-1 0-2.3.7-3 1.6-.7.8-1.2 2-1.1 3.1 1.2.1 2.4-.6 3.1-1.5z"/></svg>App Store</a>
+          <span class="btn soon">Google Play · soon</span>
+          <a class="more" href="https://chrisdjbaker.github.io/worthit-app/">Help &amp; privacy <span aria-hidden="true">→</span></a>
+        </div>
+        <a class="qr" href="https://apps.apple.com/us/app/worth-it-places-we-rate/id6772850944" title="Scan to open in the App Store"><img src="qr/worthit.png" alt="QR code for the Worth It App Store page" width="96" height="96"><span>Scan with your phone</span></a>
+      </div>
+    </article>
+    <article class="card" style="--tint:#ef7d45">
+      <div class="head">
+        <img class="icon" src="icons/upside.png" alt="" width="72" height="72">
+        <div class="titles"><span class="status live">On the App Store</span><h3>Upside</h3><p class="tag">Good News Nearby</p></div>
+      </div>
+      <p class="sub">Real local stories, only good</p>
+      <div class="foot">
+        <div class="links">
+          <a class="btn primary" href="https://apps.apple.com/us/app/upside-good-news-nearby/id6838456839"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M16.4 12.6c0-2.5 2-3.6 2.1-3.7-1.2-1.7-3-1.9-3.6-2-1.5-.2-3 .9-3.8.9-.8 0-2-.9-3.3-.9-1.7 0-3.3 1-4.2 2.5-1.8 3.1-.5 7.7 1.3 10.2.9 1.2 1.9 2.6 3.2 2.6 1.3-.1 1.8-.8 3.3-.8 1.6 0 2 .8 3.4.8 1.4 0 2.3-1.3 3.1-2.5 1-1.4 1.4-2.8 1.4-2.9-.1 0-2.9-1.1-2.9-4.2zM13.9 5.2c.7-.9 1.2-2 1-3.2-1 0-2.3.7-3 1.6-.7.8-1.2 2-1.1 3.1 1.2.1 2.4-.6 3.1-1.5z"/></svg>App Store</a>
+          <span class="btn soon">Google Play · soon</span>
+          <a class="more" href="https://chrisdjbaker.github.io/upside-app/">Help &amp; privacy <span aria-hidden="true">→</span></a>
+        </div>
+        <a class="qr" href="https://apps.apple.com/us/app/upside-good-news-nearby/id6838456839" title="Scan to open in the App Store"><img src="qr/upside.png" alt="QR code for the Upside App Store page" width="96" height="96"><span>Scan with your phone</span></a>
+      </div>
+    </article>
+    <article class="card" style="--tint:#d93d2e">
+      <div class="head">
+        <img class="icon" src="icons/sushi-bowls.png" alt="" width="72" height="72">
+        <div class="titles"><span class="status live">On the App Store</span><h3>Sushi Bowls</h3></div>
+      </div>
+      <p class="sub">Conveyor sushi bill counter</p>
+      <div class="foot">
+        <div class="links">
+          <a class="btn primary" href="https://apps.apple.com/us/app/sushi-bowls/id6774802371"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M16.4 12.6c0-2.5 2-3.6 2.1-3.7-1.2-1.7-3-1.9-3.6-2-1.5-.2-3 .9-3.8.9-.8 0-2-.9-3.3-.9-1.7 0-3.3 1-4.2 2.5-1.8 3.1-.5 7.7 1.3 10.2.9 1.2 1.9 2.6 3.2 2.6 1.3-.1 1.8-.8 3.3-.8 1.6 0 2 .8 3.4.8 1.4 0 2.3-1.3 3.1-2.5 1-1.4 1.4-2.8 1.4-2.9-.1 0-2.9-1.1-2.9-4.2zM13.9 5.2c.7-.9 1.2-2 1-3.2-1 0-2.3.7-3 1.6-.7.8-1.2 2-1.1 3.1 1.2.1 2.4-.6 3.1-1.5z"/></svg>App Store</a>
+          <span class="btn soon">Google Play · soon</span>
+          <a class="more" href="https://chrisdjbaker.github.io/sushi-bowls-app/">Help &amp; privacy <span aria-hidden="true">→</span></a>
+        </div>
+        <a class="qr" href="https://apps.apple.com/us/app/sushi-bowls/id6774802371" title="Scan to open in the App Store"><img src="qr/sushi-bowls.png" alt="QR code for the Sushi Bowls App Store page" width="96" height="96"><span>Scan with your phone</span></a>
+      </div>
+    </article>
+    <article class="card" style="--tint:#11776d">
+      <div class="head">
+        <img class="icon" src="icons/totetag.png" alt="" width="72" height="72">
+        <div class="titles"><span class="status live">On the App Store</span><h3>ToteTag</h3></div>
+      </div>
+      <p class="sub">QR labels for storage totes</p>
+      <div class="foot">
+        <div class="links">
+          <a class="btn primary" href="https://apps.apple.com/us/app/totetag/id6759206433"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M16.4 12.6c0-2.5 2-3.6 2.1-3.7-1.2-1.7-3-1.9-3.6-2-1.5-.2-3 .9-3.8.9-.8 0-2-.9-3.3-.9-1.7 0-3.3 1-4.2 2.5-1.8 3.1-.5 7.7 1.3 10.2.9 1.2 1.9 2.6 3.2 2.6 1.3-.1 1.8-.8 3.3-.8 1.6 0 2 .8 3.4.8 1.4 0 2.3-1.3 3.1-2.5 1-1.4 1.4-2.8 1.4-2.9-.1 0-2.9-1.1-2.9-4.2zM13.9 5.2c.7-.9 1.2-2 1-3.2-1 0-2.3.7-3 1.6-.7.8-1.2 2-1.1 3.1 1.2.1 2.4-.6 3.1-1.5z"/></svg>App Store</a>
+          <span class="btn soon">Google Play · soon</span>
+          <a class="more" href="https://chrisdjbaker.github.io/totetag-app/">Help &amp; privacy <span aria-hidden="true">→</span></a>
+        </div>
+        <a class="qr" href="https://apps.apple.com/us/app/totetag/id6759206433" title="Scan to open in the App Store"><img src="qr/totetag.png" alt="QR code for the ToteTag App Store page" width="96" height="96"><span>Scan with your phone</span></a>
+      </div>
+    </article>
+    <article class="card" style="--tint:#7b3fe4">
+      <div class="head">
+        <img class="icon" src="icons/glowline.png" alt="" width="72" height="72">
+        <div class="titles"><span class="status">Coming soon</span><h3>Glowline</h3><p class="tag">Neon Arena</p></div>
+      </div>
+      <p class="sub">Draw loops. Claim the arena.</p>
+      <div class="foot">
+        <div class="links">
+          <span class="btn soon">App Store · soon</span>
+          <span class="btn soon">Google Play · soon</span>
+          <a class="more" href="https://chrisdjbaker.github.io/glowline-app/">Help &amp; privacy <span aria-hidden="true">→</span></a>
+        </div>
+        <div class="qr empty" aria-hidden="true"><div class="ph">QR</div><span>When it's live</span></div>
+      </div>
+    </article>
+    <article class="card" style="--tint:#7a6236">
+      <div class="head">
+        <img class="icon" src="icons/ammoledger.png" alt="" width="72" height="72">
+        <div class="titles"><span class="status">Coming soon</span><h3>AmmoLedger</h3></div>
+      </div>
+      <p class="sub">Ammo inventory and range log</p>
+      <div class="foot">
+        <div class="links">
+          <span class="btn soon">App Store · soon</span>
+          <span class="btn soon">Google Play · soon</span>
+          <a class="more" href="https://chrisdjbaker.github.io/ammoledger-app/">Help &amp; privacy <span aria-hidden="true">→</span></a>
+        </div>
+        <div class="qr empty" aria-hidden="true"><div class="ph">QR</div><span>When it's live</span></div>
+      </div>
+    </article>
   </div>
 
-  <h2>Support and privacy</h2>
-  <p class="small">Each app has its own page with help and a privacy policy. Tap Support on any app above to find them. None of these apps collect personal data for the developer.</p>
+  <section class="about">
+    <div><h2>Help and privacy</h2><p>Every app has its own page with help and a privacy policy. Tap “Help &amp; privacy” on any app above.</p></div>
+    <div><h2>Your data stays yours</h2><p>None of these apps collect personal data for the developer.</p></div>
+    <div><h2>Android is on the way</h2><p>Google Play versions are being tested now. Links will appear here when they're ready.</p></div>
+  </section>
 
   <footer>© 2026 Christopher Baker</footer>
 </main>
