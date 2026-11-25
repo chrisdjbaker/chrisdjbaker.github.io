@@ -22,6 +22,10 @@
           border:1px solid var(--line); border-radius:16px; }
   .top { display:flex; gap:14px; align-items:center; }
   .card img { width:60px; height:60px; border-radius:14px; flex:none; }
+  .top > div { flex:1; min-width:0; }
+  a.qr { flex:none; display:flex; flex-direction:column; align-items:center; gap:4px; text-decoration:none; }
+  a.qr img { width:84px; height:84px; border-radius:6px; background:#fff; padding:4px; border:1px solid var(--line); image-rendering:pixelated; }
+  a.qr span { font-size:.7rem; color:var(--muted); white-space:nowrap; }
   .links { display:flex; flex-wrap:wrap; gap:8px; }
   .btn { font-size:.85rem; font-weight:600; padding:6px 12px; border-radius:999px; text-decoration:none;
          background:var(--accent); color:var(--card); }
@@ -42,11 +46,11 @@
 
   <div class="grid">
     <div class="card">
-      <div class="top"><img src="icons/farkle.png" alt=""><div><div class="name">Farkle: Play with Friends</div><div class="sub">The 10,000 dice game, out loud</div></div></div>
+      <div class="top"><img src="icons/farkle.png" alt=""><div><div class="name">Farkle: Play with Friends</div><div class="sub">The 10,000 dice game, out loud</div></div><a class="qr" href="https://apps.apple.com/us/app/farkle-play-with-friends/id6838118645" title="Scan to open in the App Store"><img src="qr/farkle.png" alt="QR code for the App Store page"><span>Scan for App Store</span></a></div>
       <div class="links"><a class="btn" href="https://apps.apple.com/us/app/farkle-play-with-friends/id6838118645">App Store</a><span class="btn soon">Google Play: soon</span><a class="btn plain" href="https://chrisdjbaker.github.io/farkle-app/">Support</a></div>
     </div>
     <div class="card">
-      <div class="top"><img src="icons/bullseye.png" alt=""><div><div class="name">Bullseye: Darts Scoreboard</div><div class="sub">Darts scorekeeper and checkouts</div></div></div>
+      <div class="top"><img src="icons/bullseye.png" alt=""><div><div class="name">Bullseye: Darts Scoreboard</div><div class="sub">Darts scorekeeper and checkouts</div></div><a class="qr" href="https://apps.apple.com/us/app/bullseye-darts-scoreboard/id6838174956" title="Scan to open in the App Store"><img src="qr/bullseye.png" alt="QR code for the App Store page"><span>Scan for App Store</span></a></div>
       <div class="links"><a class="btn" href="https://apps.apple.com/us/app/bullseye-darts-scoreboard/id6838174956">App Store</a><span class="btn soon">Google Play: soon</span><a class="btn plain" href="https://chrisdjbaker.github.io/darts-scorekeeper-app/">Support</a></div>
     </div>
     <div class="card">
@@ -54,23 +58,23 @@
       <div class="links"><span class="btn soon">App Store: soon</span><span class="btn soon">Google Play: soon</span><a class="btn plain" href="https://chrisdjbaker.github.io/glowline-app/">Support</a></div>
     </div>
     <div class="card">
-      <div class="top"><img src="icons/decoded.png" alt=""><div><div class="name">Decoded: Daily Quote Puzzle</div><div class="sub">Crack the code, find the quote</div></div></div>
+      <div class="top"><img src="icons/decoded.png" alt=""><div><div class="name">Decoded: Daily Quote Puzzle</div><div class="sub">Crack the code, find the quote</div></div><a class="qr" href="https://apps.apple.com/us/app/decoded-daily-quote-puzzle/id6838428665" title="Scan to open in the App Store"><img src="qr/decoded.png" alt="QR code for the App Store page"><span>Scan for App Store</span></a></div>
       <div class="links"><a class="btn" href="https://apps.apple.com/us/app/decoded-daily-quote-puzzle/id6838428665">App Store</a><span class="btn soon">Google Play: soon</span><a class="btn plain" href="https://chrisdjbaker.github.io/decoded-app/">Support</a></div>
     </div>
     <div class="card">
-      <div class="top"><img src="icons/worthit.png" alt=""><div><div class="name">Worth It: Places We Rate</div><div class="sub">Rate places, decide together</div></div></div>
+      <div class="top"><img src="icons/worthit.png" alt=""><div><div class="name">Worth It: Places We Rate</div><div class="sub">Rate places, decide together</div></div><a class="qr" href="https://apps.apple.com/us/app/worth-it-places-we-rate/id6772850944" title="Scan to open in the App Store"><img src="qr/worthit.png" alt="QR code for the App Store page"><span>Scan for App Store</span></a></div>
       <div class="links"><a class="btn" href="https://apps.apple.com/us/app/worth-it-places-we-rate/id6772850944">App Store</a><span class="btn soon">Google Play: soon</span><a class="btn plain" href="https://chrisdjbaker.github.io/worthit-app/">Support</a></div>
     </div>
     <div class="card">
-      <div class="top"><img src="icons/upside.png" alt=""><div><div class="name">Upside: Good News Nearby</div><div class="sub">Real local stories, only good</div></div></div>
+      <div class="top"><img src="icons/upside.png" alt=""><div><div class="name">Upside: Good News Nearby</div><div class="sub">Real local stories, only good</div></div><a class="qr" href="https://apps.apple.com/us/app/upside-good-news-nearby/id6838456839" title="Scan to open in the App Store"><img src="qr/upside.png" alt="QR code for the App Store page"><span>Scan for App Store</span></a></div>
       <div class="links"><a class="btn" href="https://apps.apple.com/us/app/upside-good-news-nearby/id6838456839">App Store</a><span class="btn soon">Google Play: soon</span><a class="btn plain" href="https://chrisdjbaker.github.io/upside-app/">Support</a></div>
     </div>
     <div class="card">
-      <div class="top"><img src="icons/sushi-bowls.png" alt=""><div><div class="name">Sushi Bowls</div><div class="sub">Conveyor sushi bill counter</div></div></div>
+      <div class="top"><img src="icons/sushi-bowls.png" alt=""><div><div class="name">Sushi Bowls</div><div class="sub">Conveyor sushi bill counter</div></div><a class="qr" href="https://apps.apple.com/us/app/sushi-bowls/id6774802371" title="Scan to open in the App Store"><img src="qr/sushi-bowls.png" alt="QR code for the App Store page"><span>Scan for App Store</span></a></div>
       <div class="links"><a class="btn" href="https://apps.apple.com/us/app/sushi-bowls/id6774802371">App Store</a><span class="btn soon">Google Play: soon</span><a class="btn plain" href="https://chrisdjbaker.github.io/sushi-bowls-app/">Support</a></div>
     </div>
     <div class="card">
-      <div class="top"><img src="icons/totetag.png" alt=""><div><div class="name">ToteTag</div><div class="sub">QR labels for storage totes</div></div></div>
+      <div class="top"><img src="icons/totetag.png" alt=""><div><div class="name">ToteTag</div><div class="sub">QR labels for storage totes</div></div><a class="qr" href="https://apps.apple.com/us/app/totetag/id6759206433" title="Scan to open in the App Store"><img src="qr/totetag.png" alt="QR code for the App Store page"><span>Scan for App Store</span></a></div>
       <div class="links"><a class="btn" href="https://apps.apple.com/us/app/totetag/id6759206433">App Store</a><span class="btn soon">Google Play: soon</span><a class="btn plain" href="https://chrisdjbaker.github.io/totetag-app/">Support</a></div>
     </div>
     <div class="card">
